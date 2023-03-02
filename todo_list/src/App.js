@@ -1,4 +1,4 @@
-//React Todolist Application
+//React Todolist Application Code
 
 import React from "react";
 import "./App.css";
