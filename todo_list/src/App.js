@@ -3,8 +3,8 @@
 import React from "react";
 import "./App.css";
 const App = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [todo, setTodo] = React.useState("");
+  const [todos, setTodos] = React.useState([]);   //todos is the state,  setTodos is the function that updates the state value.
+  const [todo, setTodo] = React.useState("");     
 
   // Add the handlesubmit code here
   function handleSubmit(e) {
