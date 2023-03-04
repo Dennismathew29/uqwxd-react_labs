@@ -4,39 +4,60 @@ import React from "react";
 import "./App.css";
 const App = () => {
   const [todos, setTodos] = React.useState([]);   //todos is the state,  setTodos is the function that updates the state value.
-  const [todo, setTodo] = React.useState("");     
+  const [todo, setTodo] = React.useState("");
 
   // Add the handlesubmit code here
+
   function handleSubmit(e) {
-    e.preventDefault();
 
-    const newTodo = {
+    e.preventDefault();     //This prevents the form from submitting and refreshing the page.
+    const newTodo = {       //This creates a new todo item object that will be added to the todos array.
       id: new Date().getTime(),
-      
-
+      text: todo.trim(),      //This sets the text property of the new todo item to the current value of the todo variable, with any leading or trailing whitespace removed.
+      completed: false,        //This sets the completed property of the new todo item to false.
     };
+    if (newTodo.text.length > 0) {         ////This checks if the text property of the new todo item is not empty.
+      setTodos([...todos].concat(newTodo));     //If the text property of the new todo item is not empty, this updates the todos variable to a new array that includes all the existing todo items plus the new todo item.
+      setTodo("");          //This sets the todo variable back to an empty string, clearing the input field.
 
+    } else {
 
+      alert("Enter Valid Task");
+      setTodo("");
+    }
   }
 
 
-  // Add the deleteToDo code here
 
+  // Add the deleteToDo code here
+  function deleteToDo(id) {
+    let updatedTodos = [...todos].filter((todo) => todo.id !== id)
+    setTodos(updatedTodos);
+  }
 
   // Add the toggleComplete code here
 
 
   // Add the submitEdits code here
-
-
   return (
-    <div className="App">
+    <div id="todo-list">
       <h1>Todo List</h1>
-      <form>
-        <input type="text" align="right" />
+      <form onSubmit={handleSubmit}>
+        <input          //inside the form, there is an input element that has a type of "text". It also has an onChange event handler that is set to a function that updates the todo variable with the current value of the input field.
+          type="text"
+          onChange={(e) => setTodo(e.target.value)}
+          value={todo}
+        />
         <button type="submit">Add Todo</button>
       </form>
+      {todos.map((todo) => <div className="todo" key={todo.id}>
+        <div>{todo.text}</div>
+
+        <button onClick={() => deleteToDo(todo.id)}>Delete</button>
+      </div>)}
     </div>
+
   );
 };
+
 export default App;
