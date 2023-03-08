@@ -3,8 +3,12 @@
 import React from "react";
 import "./App.css";
 const App = () => {
+
   const [todos, setTodos] = React.useState([]);   //todos is the state,  setTodos is the function that updates the state value.
   const [todo, setTodo] = React.useState("");
+  const [todoEditing, setTodoEditing] = React.useState(null);
+  const [editingText, setEditingText] = React.useState("");
+
 
   // Add the handlesubmit code here
 
@@ -30,33 +34,82 @@ const App = () => {
 
 
   // Add the deleteToDo code here
-  function deleteToDo(id) {
+  function deleteTodo(id) {
     let updatedTodos = [...todos].filter((todo) => todo.id !== id)
     setTodos(updatedTodos);
   }
 
   // Add the toggleComplete code here
+  //add a checkbox to mark task completion
+
+  function toggleComplete(id) {
+    let updatedTodos = [...todos].map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  }
+
+
 
 
   // Add the submitEdits code here
+  function submitEdits(id) {
+    const updatedTools = [...todos].map((todo) => {
+      if (todo.id === id) {
+        todo.text = editingText;
+      }
+      return todo;
+    });
+    setTodos(updatedTools);
+    setTodoEditing(null);
+  }
+
+  //inside the form, there is an input element that has a type of "text". It also has an onChange event handler that is set to a function that updates the todo variable with the current value of the input field.
+
   return (
     <div id="todo-list">
       <h1>Todo List</h1>
       <form onSubmit={handleSubmit}>
-        <input          //inside the form, there is an input element that has a type of "text". It also has an onChange event handler that is set to a function that updates the todo variable with the current value of the input field.
+        <input
           type="text"
           onChange={(e) => setTodo(e.target.value)}
           value={todo}
         />
         <button type="submit">Add Todo</button>
       </form>
-      {todos.map((todo) => <div className="todo" key={todo.id}>
-        <div>{todo.text}</div>
+      {todos.map((todo) => (
+        <div key={todo.id} className="todo">
+          <div className="todo-text">
+            <input
+              type="checkbox"
+              id="completed"
+              checked={todo.completed}
+              onChange={() => toggleComplete(todo.id)}
+            />
+            {todo.id === todoEditing ? (
+              <input
+                type="text"
+                onChange={(e) => setEditingText(e.target.value)}
+              />
+            ) : (
+              <div>{todo.text}</div>
+            )}
+          </div>
+          <div className="todo-actions">
+            {todo.id === todoEditing ? (
+              <button onClick={() => submitEdits(todo.id)}>Submit Edits</button>
+            ) : (
+              <button onClick={() => setTodoEditing(todo.id)}>Edit</button>
+            )}
 
-        <button onClick={() => deleteToDo(todo.id)}>Delete</button>
-      </div>)}
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </div>
+        </div>
+      ))}
     </div>
-
   );
 };
 
