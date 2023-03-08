@@ -67,13 +67,11 @@ const App = () => {
     setTodoEditing(null);
   }
 
-  //inside the form, there is an input element that has a type of "text". It also has an onChange event handler that is set to a function that updates the todo variable with the current value of the input field.
-
   return (
     <div id="todo-list">
       <h1>Todo List</h1>
       <form onSubmit={handleSubmit}>
-        <input
+        <input                ////inside the form, there is an input element that has a type of "text". It also has an onChange event handler that is set to a function that updates the todo variable with the current value of the input field.
           type="text"
           onChange={(e) => setTodo(e.target.value)}
           value={todo}
